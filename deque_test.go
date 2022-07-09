@@ -5,6 +5,16 @@ import (
 	"testing"
 )
 
+func TestLen(t *testing.T) {
+	q := Deque[int]{1, 2, 3}
+	want := 3
+	got := q.Len()
+
+	if got != want {
+		t.Errorf("expected: %v, got: %v", want, got)
+	}
+}
+
 func TestPeekLeft(t *testing.T) {
 	type test struct {
 		q    Deque[int]
@@ -71,13 +81,17 @@ func TestAppend(t *testing.T) {
 	}
 }
 
-func TestLen(t *testing.T) {
-	q := Deque[int]{1, 2, 3}
-	want := 3
-	got := q.Len()
+func TestPopLeft(t *testing.T) {
+	q := Deque[int]{2, -1, 1}
+	want := 2
+	got := q.PopLeft()
 
 	if got != want {
-		t.Errorf("expected: %v, got: %v", want, got)
+		t.Errorf("wrong popped element value; expected: %v, got: %v", want, got)
+	}
+
+	if !reflect.DeepEqual(Deque[int]{-1, 1}, q) {
+		t.Errorf("wrong queue after popping; expected: %v, got: %v", Deque[int]{-1, 1}, q)
 	}
 }
 
@@ -92,19 +106,5 @@ func TestPopRight(t *testing.T) {
 
 	if !reflect.DeepEqual(Deque[int]{1, -1}, q) {
 		t.Errorf("wrong queue after popping; expected: %v, got: %v", Deque[int]{1, -1}, q)
-	}
-}
-
-func TestPopLeft(t *testing.T) {
-	q := Deque[int]{2, -1, 1}
-	want := 2
-	got := q.PopLeft()
-
-	if got != want {
-		t.Errorf("wrong popped element value; expected: %v, got: %v", want, got)
-	}
-
-	if !reflect.DeepEqual(Deque[int]{-1, 1}, q) {
-		t.Errorf("wrong queue after popping; expected: %v, got: %v", Deque[int]{-1, 1}, q)
 	}
 }
